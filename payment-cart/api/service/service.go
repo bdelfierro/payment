@@ -62,21 +62,6 @@ func (c *CartService) RemoveProductFromCart(ctx context.Context, req schema.Cart
 
 }
 
-func (c *CartService) UpdateItemCount(ctx context.Context, req schema.CartRequest) error {
-
-	if len(req.LineItems) == 0 {
-		return errors.New("no item in the list")
-	}
-
-	item := schema.CartItem{
-		ProductDetails: req.LineItems[0].ProductDetails,
-		Quantity:       req.LineItems[0].Quantity,
-	}
-
-	return c.db.UpdateItemCount(ctx, req.CartID, item)
-
-}
-
 func (c *CartService) UpdateCartStatus(ctx context.Context, cartID string, status string) error {
 
 	if len(status) == 0 {
