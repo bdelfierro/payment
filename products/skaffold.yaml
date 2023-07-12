@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta16
+kind: Config
+metadata:
+  name: products
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - context: .
+      image: products
+deploy:
+  kubectl:
+    manifests:
+      - k8s/*

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-checkout
+spec:
+  selector:
+    matchLabels:
+      app: payment-checkout
+  template:
+    metadata:
+      labels:
+        app: payment-checkout
+    spec:
+      serviceAccountName: ksa-cloud-sql
+      containers:
+        - name: payment-checkout
+          image: payment-checkout
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: common-environment-config
+            - configMapRef:
+                name: payment-checkout-config
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-webhook-config
+data:
+  PORT: "8080"
+  STRIPE_SECRETS_NAME: "stripe_test"
+  FULFILLMENT_TOPIC_ID: "fulfillment"
+  FULFILLMENT_SUBS_ID: "fulfillment-sub"

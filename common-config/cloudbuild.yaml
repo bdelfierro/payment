@@ -1,0 +1,14 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      [
+        "deploy", "releases", "create", "payment-common-config-${SHORT_SHA}",
+        "--delivery-pipeline", "payment-pipeline",
+        "--region", "asia-southeast1",
+        "--skaffold-file", "./common-config/skaffold.yaml",
+        "--annotations", "commitId=${REVISION_ID}",
+      ]
+options:
+  logging: CLOUD_LOGGING_ONLY
+

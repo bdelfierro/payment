@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta16
+kind: Config
+metadata:
+  name: payment-checkout
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - context: .
+      image: payment-checkout
+deploy:
+  kubectl:
+    manifests:
+      - k8s/*

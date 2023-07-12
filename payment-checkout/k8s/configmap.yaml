@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-checkout-config
+data:
+  PORT: "8080"
+  STRIPE_SECRETS_NAME: "stripe_test"
+  STRIPE_RESPONSE_URL: "http://payment-checkout:80"

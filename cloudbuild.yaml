@@ -1,0 +1,22 @@
+steps:
+    # build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'us-west2-docker.pkg.dev/$PROJECT_ID/docker-repo/${_SERVICE_NAME}:${COMMIT_SHA}', './${_SERVICE_NAME}' ]
+    # push container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', "us-west2-docker.pkg.dev/$PROJECT_ID/docker-repo/${_SERVICE_NAME}:${COMMIT_SHA}"]
+    # Create release in Google Cloud Deploy
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      [
+        "deploy", "releases", "create", "${_SERVICE_NAME}-${SHORT_SHA}",
+        "--delivery-pipeline", "payment-pipeline",
+        "--region", "asia-southeast1",
+        "--skaffold-file", "./${_SERVICE_NAME}/skaffold.yaml",
+        "--annotations", "commitId=${REVISION_ID}",
+        "--images", "${_SERVICE_NAME}=us-west2-docker.pkg.dev/$PROJECT_ID/docker-repo/${_SERVICE_NAME}:${COMMIT_SHA}"
+      ]
+options:
+  logging: CLOUD_LOGGING_ONLY
+

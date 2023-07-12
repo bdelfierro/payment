@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-webhook
+spec:
+  selector:
+    matchLabels:
+      app: payment-webhook
+  template:
+    metadata:
+      labels:
+        app: payment-webhook
+    spec:
+      serviceAccountName: ksa-cloud-sql
+      containers:
+        - name: payment-webhook
+          image: payment-webhook
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: common-environment-config
+            - configMapRef:
+                name: payment-webhook-config
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5

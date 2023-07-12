@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta16
+kind: Config
+metadata:
+  name: payment-cart
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - context: .
+      image: payment-cart
+deploy:
+  kubectl:
+    manifests:
+      - k8s/*

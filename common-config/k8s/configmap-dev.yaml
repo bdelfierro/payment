@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: common-environment-config
+data:
+  GOOGLE_CLOUD_PROJECT: "training-387322"
+  CLOUD_SQL_POSTGRES_SECRETS_NAME: "gke-cloud-sql-secrets"

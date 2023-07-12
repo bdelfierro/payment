@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-cart
+spec:
+  selector:
+    matchLabels:
+      app: payment-cart
+  template:
+    metadata:
+      labels:
+        app: payment-cart
+    spec:
+      serviceAccountName: ksa-cloud-sql
+      containers:
+        - name: payment-cart
+          image: payment-cart
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: common-environment-config
+            - configMapRef:
+                name: payment-cart-config
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5

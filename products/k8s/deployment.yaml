@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products
+spec:
+  selector:
+    matchLabels:
+      app: products
+  template:
+    metadata:
+      labels:
+        app: products
+    spec:
+      serviceAccountName: ksa-cloud-sql
+      containers:
+        - name: products
+          image: products
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: common-environment-config
+            - configMapRef:
+                name: products-config
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
